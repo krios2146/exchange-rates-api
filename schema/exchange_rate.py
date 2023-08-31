@@ -1,7 +1,7 @@
 from _decimal import Decimal
 from pydantic import BaseModel, Field
 
-from model.currency import Currency
+from schema.currency import Currency
 
 
 class ExchangeRate(BaseModel):
