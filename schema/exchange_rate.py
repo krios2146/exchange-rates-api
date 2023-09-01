@@ -9,3 +9,6 @@ class ExchangeRate(BaseModel):
     base_currency: Field(Currency)
     target_currency: Field(Currency)
     rate: Decimal
+
+    class Config:
+        from_attributes = True
