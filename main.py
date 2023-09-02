@@ -3,8 +3,10 @@ from sqlalchemy.orm import Session
 from starlette.requests import Request
 
 import currency_repository
+import exchange_rate_repository
 from database import SessionLocal, Base, engine
 from schema.currency import Currency, CurrencyAdd
+from schema.exchange_rate import ExchangeRate, ExchangeRateAdd
 
 app = FastAPI()
 
@@ -38,3 +40,13 @@ async def post_currency(currency: CurrencyAdd, db: Session = Depends(get_db)):
 @app.get("/api/currency/{code}", response_model=Currency)
 async def get_currency(code, db: Session = Depends(get_db)):
     return currency_repository.find_by_code(db, code)
+
+
+@app.get("/api/exchangeRates", response_model=list[ExchangeRate])
+async def get_exchange_rates(db: Session = Depends(get_db)):
+    return exchange_rate_repository.find_all(db)
+
+
+@app.post("/api/exchangeRates", response_model=ExchangeRate)
+async def post_exchange_rate(exchange_rate: ExchangeRateAdd, db: Session = Depends(get_db)):
+    return exchange_rate_repository.save(db, exchange_rate)
